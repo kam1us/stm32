@@ -1,0 +1,21 @@
+1. **建立工程文件夹，Keil 新建工程，选择芯片型号**
+在电脑新建总工程文件夹；打开 Keil → New μVision Project；选择芯片（常用：STM32F103C8T6）。
+2. **本地文件夹分层：Start、Library、User**
+在电脑的工程目录下新建这 3 个文件夹，把标准固件库对应的文件复制进去：
+   - `Start`：启动文件（`startup_stm32f10x_md.s` 中等容量芯片）
+   - `Library`：外设驱动库（stm32f10x_gpio.c、stm32f10x_rcc.c 等）
+   - `User`：自己写的 main.c、主程序文件
+3. **Keil 工程内建立同名分组，添加文件**
+Keil 工程窗口新建分组：Start、Library、User；
+把电脑文件夹里对应的 `.s`、`.c` 文件，添加进 Keil 对应的分组。
+> 
+> 本地文件夹 和 Keil 工程分组 名字保持一致，方便管理。
+4. **工程选项 → C/C++ → Include Paths 添加头文件路径**
+添加所有 `.h` 头文件所在文件夹，编译器才能找到 `stm32f10x.h`，否则报头文件找不到错误。
+5. **工程选项 → C/C++ → Define 预定义宏**
+填入：`USE_STDPERIPH_DRIVER`
+作用：启用标准外设库驱动代码，是标准库必加宏。
+6. **工程选项 → Debug 调试器配置**
+   - Debug 下拉选择调试器（ST-LINK / J-LINK）
+   - 点 Settings，进入 Flash Download
+   - 勾选 **Reset and Run**：下载代码后自动复位单片机，立刻运行程序
